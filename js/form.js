@@ -84,6 +84,4 @@ form.addEventListener('change', openModalWindow);
 
 closeButton.addEventListener('click', closeModalWindow);
 
-export {setFormSubmit};
-export {closeModalWindow};
-export {onModalWindowEscapeKeydown};
+export {setFormSubmit, closeModalWindow, onModalWindowEscapeKeydown};

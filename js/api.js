@@ -1,23 +1,26 @@
+const urlForGet = 'https://27.javascript.pages.academy/kekstagram-simple/data';
+const urlForSend = 'https://27.javascript.pages.academy/kekstagram-simple';
+
 const getData = (onSuccess, onFail) => {
-  fetch('https://27.javascript.pages.academy/kekstagram-simple/data')
+  fetch(urlForGet)
     .then((response) => {
       if (response.ok) {
         return response.json();
       } else {
-        onFail('Не загрузились изображения с сервера, попробуйте обновить страницу.');
+        onFail();
       }
     })
     .then((data) => {
       onSuccess(data);
     })
     .catch(() => {
-      onFail('Не загрузились изображения с сервера, попробуйте обновить страницу.');
+      onFail();
     });
 };
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://27.javascript.pages.academy/kekstagram-simple',
+    urlForSend,
     {
       method: 'POST',
       body,
