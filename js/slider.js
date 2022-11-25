@@ -1,5 +1,12 @@
 const FILTER_PARAMETRES = [
   {
+    filtername: 'none',
+    min: 0,
+    max: 1,
+    step: 0.1,
+    cssstyle: 'none',
+  },
+  {
     filtername: 'chrome',
     min: 0,
     max: 1,
@@ -33,44 +40,87 @@ const FILTER_PARAMETRES = [
     max: 3,
     step: 0.1,
     cssstyle: 'brightness',
-  }
+  },
 ];
 
 const sliderElement = document.querySelector('.effect-level__slider');
 const sliderValueElement = document.querySelector('.effect-level__value');
-const effectsList = document.querySelector('.effects__list');
 const image = document.querySelector('.img-upload__preview img');
+const sliderContainer = document.querySelector('.img-upload__effect-level');
 
-const createSlider = (min, max, step, cssstyle) => {
-  noUiSlider.create(sliderElement, {
+const updateSlider = (min, max, step) => {
+  sliderElement.noUiSlider.updateOptions({
     range: {
       min: min,
       max: max,
     },
-    start: max,
     step: step,
-    connect: 'lower',
   });
-
-  sliderElement.noUiSlider.on('update', () => {
-    sliderValueElement.value = sliderElement.noUiSlider.get();
-    image.style.filter = `${cssstyle}(${sliderValueElement.value})`;
-    console.log(image.style.filter);
-  });
+  sliderElement.noUiSlider.set(max);
+  sliderContainer.classList.remove('hidden');
 };
 
-const deleteSlider = () => {
-  sliderElement.noUiSlider.destroy();
+const hideSlider = () => {
+  sliderContainer.classList.add('hidden');
 };
 
-const onFilterChange = (evt) => {
-  if (evt.target.type === 'radio') {
-    FILTER_PARAMETRES.forEach((item) => {
-      if (item.filtername === evt.target.value) {
-        createSlider(item.min, item.max, item.step, item.cssstyle);
+const addSlider = (evt) => {
+  FILTER_PARAMETRES.forEach((item) => {
+    if (item.filtername === evt.target.value) {
+      switch (item.filtername) {
+        case 'none':
+          hideSlider();
+          image.style.filter = item.filtername;
+          break;
+        case 'chrome':
+          updateSlider(item.min, item.max, item.step);
+          sliderElement.noUiSlider.on('update', () => {
+            sliderValueElement.value = sliderElement.noUiSlider.get();
+            image.style.filter = `${item.cssstyle}(${sliderValueElement.value})`;
+          });
+          break;
+        case 'sepia':
+          updateSlider(item.min, item.max, item.step);
+          sliderElement.noUiSlider.on('update', () => {
+            sliderValueElement.value = sliderElement.noUiSlider.get();
+            image.style.filter = `${item.cssstyle}(${sliderValueElement.value})`;
+          });
+          break;
+        case 'marvin':
+          updateSlider(item.min, item.max, item.step);
+          sliderElement.noUiSlider.on('update', () => {
+            sliderValueElement.value = sliderElement.noUiSlider.get();
+            image.style.filter = `${item.cssstyle}(${sliderValueElement.value}%)`;
+          });
+          break;
+        case 'phobos':
+          updateSlider(item.min, item.max, item.step);
+          sliderElement.noUiSlider.on('update', () => {
+            sliderValueElement.value = sliderElement.noUiSlider.get();
+            image.style.filter = `${item.cssstyle}(${sliderValueElement.value}px)`;
+          });
+          break;
+        case 'heat':
+          updateSlider(item.min, item.max, item.step);
+          sliderElement.noUiSlider.on('update', () => {
+            sliderValueElement.value = sliderElement.noUiSlider.get();
+            image.style.filter = `${item.cssstyle}(${sliderValueElement.value})`;
+          });
+          break;
       }
-    });
-  }
+    }
+  });
 };
 
-effectsList.addEventListener('change', onFilterChange);
+noUiSlider.create(sliderElement, {
+  range: {
+    min: 0,
+    max: 1,
+  },
+  start: 1,
+  step: 0.1,
+  connect: 'lower',
+});
+hideSlider();
+
+export {addSlider};
