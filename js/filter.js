@@ -1,10 +1,8 @@
 const image = document.querySelector('.img-upload__preview img');
 const filterList = document.querySelector('.effects__list');
-const noneFilter = document.querySelector('#effect-none');
 
 const filterReset = () => {
   image.removeAttribute('class');
-  noneFilter.checked = true;
 };
 
 const onFilterChange = (evt) => {
