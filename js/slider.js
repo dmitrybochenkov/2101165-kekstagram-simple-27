@@ -70,7 +70,7 @@ const addSlider = (evt) => {
       switch (item.filtername) {
         case 'none':
           hideSlider();
-          image.style.filter = item.filtername;
+          image.style.filter = item.cssstyle;
           break;
         case 'chrome':
           updateSlider(item.min, item.max, item.step);
